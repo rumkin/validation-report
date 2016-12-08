@@ -11,6 +11,20 @@ describe('Validation Report', () => {
         should(report.isValid()).be.equal(true);
     });
 
+    it('Should add issues with constructor', () => {
+        let report = new Report({
+            issues: [{
+                path: ['username'],
+                rule: 'uniq',
+                accept: true,
+                result: false,
+            }],
+        });
+
+        should(report.hasIssue('username')).be.equal(true);
+        should(report.isValid()).be.equal(false);
+    });
+
     it('Should has issues', () => {
         let report = new Report();
 
@@ -23,6 +37,19 @@ describe('Validation Report', () => {
 
         should(report.hasIssue('username')).be.equal(true);
         should(report.isValid()).be.equal(false);
+    });
+
+    it('Should has no issue', () => {
+        let report = new Report();
+
+        report.addIssue({
+            path: ['username'],
+            rule: 'uniq',
+            accept: true,
+            result: false,
+        });
+
+        should(report.hasIssue('usernameX')).be.equal(false);
     });
 
     it('Should return issues', () => {

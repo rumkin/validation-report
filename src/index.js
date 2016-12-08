@@ -100,7 +100,7 @@ Report.prototype.getIssues = function () {
  */
 Report.prototype.setIssues = function (issues) {
     issues.forEach((issue) => {
-        this.setIssue(issue);
+        this.addIssue(issue);
     });
 
     return this;

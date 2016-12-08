@@ -1,7 +1,7 @@
 {
   "name": "validation-report",
   "description": "Unified validation report interface",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "main": "build/index.js",
   "scripts": {
     "build": "[ -d build ] && rm -rf build; cp -r src build",
@@ -15,5 +15,27 @@
     "istanbul": "^0.4.5",
     "mocha": "^3.2.0",
     "should": "^11.1.1"
-  }
+  },
+  "bin": {
+    "validation-report": "cli.js"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rumkin/validation-report.git"
+  },
+  "keywords": [
+    "validation",
+    "validator",
+    "validate",
+    "valid"
+  ],
+  "author": "rumkin",
+  "bugs": {
+    "url": "https://github.com/rumkin/validation-report/issues"
+  },
+  "homepage": "https://github.com/rumkin/validation-report#readme"
 }

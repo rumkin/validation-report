@@ -14,6 +14,52 @@ Install via npm:
 npm i validation-report
 ```
 
+## Example
+
+Create and use report without validator in express:
+
+```javascript
+const ValidationReport = require('validation-report');
+const express = require('express');
+
+express()
+    .use((req, res, next) => {
+        let report = new ValidationReport({
+            value: req.query,
+        });
+
+        if ('id' in req.query === false) {
+            report.addIssue({
+                path: ['id'],
+                rule: 'exists',
+            });
+        }
+        else if (req.query.id.length != 24) {
+            report.addIssue({
+                path: ['id'],
+                rule: 'length',
+                details: {
+                    accept: 32,
+                    result: req.query.id.length,
+                },
+            });
+        }
+
+        if (! report.isValid()) {
+            res.status(400)
+            .json({
+                code: 'validation',
+                error: 'Request validation error',
+                details: {issues: report},
+            });
+        }
+        else {
+            // do something...
+            res.end();
+        }
+    })
+```
+
 ## API
 
 ### constructor({issues:ReportIssue[], value: * }) -> Report
