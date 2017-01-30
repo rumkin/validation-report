@@ -29,19 +29,12 @@ express()
         });
 
         if ('id' in req.query === false) {
-            report.addIssue({
-                path: ['id'],
-                rule: 'exists',
-            });
+            report.addIssue('id', 'exists');
         }
         else if (req.query.id.length != 24) {
-            report.addIssue({
-                path: ['id'],
-                rule: 'length',
-                details: {
-                    accept: 32,
-                    result: req.query.id.length,
-                },
+            report.addIssue('id', 'length', {
+                accept: 32,
+                result: req.query.id.length,
             });
         }
 
