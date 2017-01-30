@@ -39,7 +39,19 @@ describe('Validation Report', () => {
         should(report.isValid()).be.equal(false);
     });
 
-    it('Should has no issue', () => {
+    it('Should add issues', () => {
+        let report = new Report();
+
+        report.addIssue('user.name', 'uniq', {
+            accept: true,
+            result: false,
+        });
+
+        should(report.hasIssue('user.name')).be.equal(true);
+        should(report.hasIssues()).be.equal(true);
+    });
+
+    it('Should has no missed issue', () => {
         let report = new Report();
 
         report.addIssue({
