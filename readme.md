@@ -19,12 +19,12 @@ npm i validation-report
 Create and use report without validator in express:
 
 ```javascript
-const ValidationReport = require('validation-report');
+const Report = require('validation-report');
 const express = require('express');
 
 express()
     .use((req, res, next) => {
-        let report = new ValidationReport({
+        let report = new Report({
             value: req.query,
         });
 
