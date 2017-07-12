@@ -1,6 +1,6 @@
 'use strict';
 
-const {deprecate} = require('util');
+const deprecate = require('util').deprecate;
 
 module.exports = Report;
 
