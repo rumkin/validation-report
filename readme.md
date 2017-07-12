@@ -157,7 +157,13 @@ ReportIssue or undefined if issue not found.
 
 ### isValid() -> Boolean
 
-Check if report contains no issues and it's value is valid.
+**DEPRECATED** since version 1.5.0 use Report.hasIssues.
+
+Check if report contains no issues.
+
+### hasIssues() -> Boolean
+
+Check if report contains has issues.
 
 ### toJSON() -> ReportIssue[]
 

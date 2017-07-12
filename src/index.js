@@ -1,5 +1,7 @@
 'use strict';
 
+const {deprecate} = require('util');
+
 module.exports = Report;
 
 /**
@@ -34,9 +36,9 @@ function Report(options) {
  * Check if report has no issues.
  * @return {boolean}
  */
-Report.prototype.isValid = function () {
+Report.prototype.isValid = deprecate(function () {
     return this.issues.length === 0;
-};
+}, 'report.isValid: use report.hasIssues instead');
 
 /**
  * Check if report has some issues.
