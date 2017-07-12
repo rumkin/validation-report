@@ -144,8 +144,8 @@ describe('Validation Report', () => {
             report.addIssue(['images', 0, 'size'], 'number');
             report.addIssue(['images', 0, 'path'], 'string');
 
-            const issue = report.findIssue(({path}) =>
-                path.slice(0, 2).join('.') === 'images.0'
+            const issue = report.findIssue((issue) =>
+                issue.path.slice(0, 2).join('.') === 'images.0'
             );
 
             should(issue).not.equal(undefined);
