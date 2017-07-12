@@ -158,6 +158,62 @@ Report.prototype.toJSON = function () {
 };
 
 /**
+ * Find issue by path and issue name.
+ *
+ * @param  {stirng|string[]} path Search path.
+ * @param  {string} rule Rule name.
+ * @return {ReportIssue|undefined}      Validation report null or undefined if issue not found.
+ */
+Report.prototype.findIssue = function(path, rule) {
+    if (! path) {
+        path = [];
+    }
+    else if (typeof path === 'string') {
+        path = path.length === 0 ? [] : path.split('.');
+    }
+    else if (typeof path === 'function') {
+        return this.issues.find(path);
+    }
+
+    return this.issues.find(function (issue) {
+        if (! compareArrays(path, issue.path)) {
+            return false;
+        }
+
+        if (rule === undefined) {
+            return issue;
+        }
+
+        return issue.rule === rule;
+    });
+};
+
+/**
+ * Compare two string arrays.
+ *
+ * @param  {string[]} a One array to compare.
+ * @param  {string[]} b Other array to compare.
+ * @return {number}   Check each array item to compare.
+ */
+function compareArrays(a, b) {
+    if (a.length !== b.length) {
+        return false;
+    }
+    else if (!a.length) {
+        return true;
+    }
+
+    const len = a.length;
+    for (let i = 0; i < len; i++) {
+        if (a[i] !== b[i]) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+/**
  * Check if type is an object and not null.
  *
  * @param  {*}  value Value to check

@@ -1,7 +1,8 @@
 # Validation Report
 
 Unified validation report interface. It specifies interface for the validation
-issues reporting and issues interface.
+issues reporting and issues interface. This "low level" library is for
+creating validators also it could be used with manual validation.
 
 ![Build](https://img.shields.io/travis/rumkin/validation-report.svg)
 
@@ -14,7 +15,80 @@ Install via npm:
 npm i validation-report
 ```
 
+## Usage
+
+Validation report is a collection of objects which contains validation result
+data (issues). Each issue has `path`, `rule` and `details` properties.
+
+Example of issues:
+
+```javascript
+{
+    path: ['images', 0, 'title'],
+    rule: 'required',
+    details: {},
+}
+
+{
+    path: ['user', 'age'],
+    rule: 'min',
+    details: {should: 18, is: 16},
+}
+
+{
+    path: ['file.js'],
+    rule: 'syntax',
+    details: {line: 0, pos: 0, lang: 'javascript', is: '%'},
+}
+```
+
+Such objects are very simple to send, process or stringify.
+
+### Path: string[]
+
+Path is array to allow any characters (including dots, slashes or other separators) as property name.
+
+### Rule: string
+
+Validation rule code unique across your application.
+
+### Details: object
+
+Custom data object representing error data.
+
 ## Example
+
+Let create simple one function number validator:
+
+```javascript
+const Report = require('validation-report');
+
+function checkNumber(value) {
+    const report = new Report();
+
+    if (typeof value !== 'number') {
+        report.addIssue({
+            rule: 'type',
+            details: {
+                should: 'number',
+                is: typeof value,
+            },
+        });
+    }
+
+    return report;
+}
+
+const report = checkNumber(null);
+
+if (report.hasIssues()) {
+    console.log('Looks like it is not a Number');
+    const issue = report.findIssue(); // => {path: [], issue: 'type', details: {should: 'number', is: 'object'}}
+}
+
+```
+
+## Example for Express
 
 Create and use report without validator in express:
 
@@ -75,6 +149,11 @@ Add an issue.
 ### hasIssue(path:string|string[]) -> Boolean
 
 Check is issue exists by it's path. If path is a string separate it with '.'.
+
+### findIssue(path:function(reportIssue) -> Bool|string|string[], [rule]) -> ReportIssue
+
+Search issue with function or by path or by path and rule. Returns
+ReportIssue or undefined if issue not found.
 
 ### isValid() -> Boolean
 

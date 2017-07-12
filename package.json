@@ -1,7 +1,7 @@
 {
   "name": "validation-report",
   "description": "Unified validation report interface",
-  "version": "1.3.2",
+  "version": "1.4.0",
   "main": "build/index.js",
   "scripts": {
     "build": "[ -d build ] && rm -rf build; cp -r src build",

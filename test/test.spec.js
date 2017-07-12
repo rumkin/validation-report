@@ -100,4 +100,62 @@ describe('Validation Report', () => {
             rule: 'uniq',
         });
     });
+
+    describe('findIssue()', () => {
+        it('Should get issue by path', () => {
+            const report = new Report();
+
+            report.addIssue(['user'], 'string');
+            report.addIssue(['age'], 'number');
+
+            const issue = report.findIssue('age');
+
+            should(issue).not.equal(undefined);
+            should(issue).be.instanceOf(Object);
+
+            should(issue).ownProperty('path')
+            .which.deepEqual(['age']);
+
+            should(issue).ownProperty('rule')
+            .which.equal('number');
+        });
+
+        it('Should get issue by path and rule name', () => {
+            const report = new Report();
+
+            report.addIssue(['children'], 'number');
+            report.addIssue(['age'], 'number');
+
+            const issue = report.findIssue('age', 'number');
+
+            should(issue).not.equal(undefined);
+            should(issue).be.instanceOf(Object);
+
+            should(issue).ownProperty('path')
+            .which.deepEqual(['age']);
+
+            should(issue).ownProperty('rule')
+            .which.equal('number');
+        });
+
+        it('Should search items useing method', () => {
+            const report = new Report();
+
+            report.addIssue(['images', 0, 'size'], 'number');
+            report.addIssue(['images', 0, 'path'], 'string');
+
+            const issue = report.findIssue(({path}) =>
+                path.slice(0, 2).join('.') === 'images.0'
+            );
+
+            should(issue).not.equal(undefined);
+            should(issue).be.instanceOf(Object);
+
+            should(issue).ownProperty('path')
+            .which.deepEqual(['images', 0, 'size']);
+
+            should(issue).ownProperty('rule')
+            .which.equal('number');
+        });
+    });
 });
